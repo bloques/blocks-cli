@@ -1,0 +1,4 @@
+{
+  "plugins": ["transform-strict-mode","syntax-flow"],
+  "presets": ["es2015"]
+}
