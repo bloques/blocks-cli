@@ -44,7 +44,7 @@ export default class BlockRetriever {
   buildPromiseForFile(file) {
     return {
       path: file.path,
-      read: this.repo.contents(file.path).read()
+      read: this.repo.contents(file.path).read
     }
   }
 
