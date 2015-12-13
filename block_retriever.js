@@ -20,16 +20,22 @@ export default class BlockRetriever {
       let fileFetcher = this.repo.contents(dir).fetch()
 
       fileFetcher.then((dir) => {
-        let files = _(dir).filter({type: 'file'}).value()
-        let dirs = _(dir).filter({type: 'dir'}).value()
 
-        let filePromises = _(files).map(_.bind(this.buildPromiseForFile,this)).value()
+        let filePromises = _(dir)
+          .filter({type: 'file'})
+          .map(this.buildPromiseForFile,this)
+          .value()
 
-        let dirPromises = _(dirs).pluck('path').map(_.bind(this.filesForDir,this)).value()
+        let dirPromises = _(dir)
+          .filter({type: 'dir'})
+          .pluck('path')
+          .map(this.filesForDir,this)
+          .value()
 
-        Promise.all(dirPromises).then((result) => {
-          resolve(_.flattenDeep(filePromises.concat(result)))
-        })
+        return Promise.all(dirPromises)
+          .then(_.bind(filePromises.concat,filePromises))
+          .then(_.flattenDeep)
+          .then(resolve)
 
       }).catch((err) => {
         reject(err)
