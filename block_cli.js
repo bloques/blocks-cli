@@ -22,6 +22,16 @@ export default class BlockCli {
     return match.slice(1)
   }
 
+  getCommand(url) {
+    this.get.apply(this,this.parseGetOption(url))
+      .then( () => {
+        console.log('Block downloaded')
+      })
+      .catch( (err) => {
+        console.log('Something went wrong :(')
+        console.log(err)
+      })
+  }
   run() {
     program
       .version('0.0.1')
@@ -29,14 +39,7 @@ export default class BlockCli {
       .parse(process.argv)
 
     if (program.get) {
-      this.get.apply(this,this.parseGetOption(program.get))
-        .then( () => {
-          console.log('Block downloaded')
-        })
-        .catch( (err) => {
-          console.log('Something went wrong :(')
-          console.log(err)
-        })
+      this.getCommand(program.get)
     }
   }
 
