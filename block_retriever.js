@@ -1,6 +1,6 @@
 import Octokat from 'octokat'
-import path from'path'
-import _ from'lodash'
+import path from 'path'
+import _ from 'lodash'
 
 export default class BlockRetriever {
 
